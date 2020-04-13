@@ -1,14 +1,22 @@
 package ru.kan.otus.libcat.domain;
 
-public class Authors extends Entity {
-    private final String fullName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Authors(Long id, String fullName) {
-        super(id);
-        this.fullName = fullName;
-    }
+import javax.persistence.*;
 
-    public String getFullName() {
-        return fullName;
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "AUTHORS")
+public class Authors {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "fullName", nullable = false, unique = true)
+    private String fullName;
 }

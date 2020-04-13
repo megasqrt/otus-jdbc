@@ -1,34 +1,38 @@
 package ru.kan.otus.libcat.domain;
 
-public class Books extends Entity {
-    private final String title;
-    private final Long author;
-    private final Long genre;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Books(Long id, String title, Long author, Long genre) {
-        super(id);
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-    }
+import javax.persistence.*;
+import java.util.List;
 
-    public Books(String booksTitle, Long author, Long genre) {
-        super(null);
-        this.title = booksTitle;
-        this.author = author;
-        this.genre = genre;
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "BOOKS")
+@NamedEntityGraph(name = "authorAndGenre-eg", attributeNodes = {
+        @NamedAttributeNode("author"),
+        @NamedAttributeNode("genre")
+})
+public class Books {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public String getTitle() {
-        return title;
-    }
+    @Column(name = "title", nullable = false, unique = true)
+    private String title;
 
-    public Long getAuthorId() {
-        return author;
-    }
+    @OneToOne(targetEntity = Authors.class)
+    @JoinColumn(name = "author_id")
+    private Authors author;
 
-    public Long getGenreId() {
-        return genre;
-    }
+    @OneToOne(targetEntity = Genres.class)
+    @JoinColumn(name = "genre_id")
+    private Genres genre;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comments> comment;
 }
