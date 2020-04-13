@@ -10,14 +10,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "GENRES")
-public class Genres {
+@Table(name = "COMMENTS")
+public class Comments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "title", nullable = false, unique = true)
-    private String title;
+    @Column(name = "text", nullable = false)
+    private String text;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Books book;
 
 }
