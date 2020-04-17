@@ -15,6 +15,7 @@ import java.util.Objects;
 @Repository
 public class BooksDaoJdbc implements BooksDao {
 
+    private static final String BOOKS_QUERY = "select id,title,author_id,genre_id from Books";
     private final NamedParameterJdbcOperations jdbc;
 
     public BooksDaoJdbc(NamedParameterJdbcOperations jdbc) {
@@ -39,7 +40,7 @@ public class BooksDaoJdbc implements BooksDao {
     public Books getById(Long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        List<Books> books = jdbc.query("select * from Books where id=:id",
+        List<Books> books = jdbc.query(BOOKS_QUERY + " where id=:id",
                 params, new BooksMapper());
         if (!books.isEmpty())
             return books.get(0);
@@ -51,10 +52,10 @@ public class BooksDaoJdbc implements BooksDao {
     public Long insert(Books books) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("title", books.getTitle());
-        params.addValue("author", books.getAuthorId());
-        params.addValue("genre", books.getGenreId());
+        params.addValue("author_id", books.getAuthorId());
+        params.addValue("genre_id", books.getGenreId());
         KeyHolder kh = new GeneratedKeyHolder();
-        jdbc.update("insert into books(title,author,genre) values(:title,:author,:genre)", params, kh);
+        jdbc.update("insert into books(title,author_id,genre_id) values(:title,:author_id,:genre_id)", params, kh);
         return Objects.requireNonNull(kh.getKey()).longValue();
     }
 
@@ -62,11 +63,11 @@ public class BooksDaoJdbc implements BooksDao {
     public Books getByTitle(String title) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("title", "%" + title + "%");
-        return jdbc.queryForObject("select * from books where title like :title",
+        return jdbc.queryForObject(BOOKS_QUERY + " where title like :title",
                 params, new BooksMapper());
     }
 
     public List<Books> getAll() {
-        return jdbc.query("select * from Books", new BooksMapper());
+        return jdbc.query(BOOKS_QUERY, new BooksMapper());
     }
 }

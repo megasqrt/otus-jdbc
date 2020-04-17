@@ -11,5 +11,7 @@ public interface AuthorsDao {
 
     Authors getByName(String name);
 
+    String getNameById(Long id);
+
     Long insert(Authors authors);
 }

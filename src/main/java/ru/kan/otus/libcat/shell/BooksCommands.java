@@ -22,9 +22,9 @@ public class BooksCommands {
     @ShellMethod(value = "list all book", key = {"lb", "listBook"})
     public String listBooks() {
         booksDao.getAll().forEach(books -> System.out.println("id:" + books.getId() +
-                " tile:" + books.getTitle() +
-                " authorId:" + books.getAuthorId() +
-                " genreId:" + books.getGenreId()));
+                " tile: " + books.getTitle() +
+                " author: " + authorsDao.getNameById(books.getAuthorId()) +
+                " genre: " + genresDao.getTitleById(books.getGenreId())));
         return "This is all books in catalog";
     }
 
@@ -46,8 +46,8 @@ public class BooksCommands {
         Books books = booksDao.getById(id);
         if (books == null)
             return "Nothing found";
-        return "Find a book " + books.getTitle() + " author:" + authorsDao.getById(books.getAuthorId()).getFullName() +
-                " genre:" + genresDao.getById(books.getGenreId()).getTitle() +
+        return "Find a book " + books.getTitle() + " author:" + authorsDao.getNameById(books.getAuthorId()) +
+                " genre:" + genresDao.getTitleById(books.getGenreId()) +
                 " by id:" + id;
     }
 

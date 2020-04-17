@@ -15,6 +15,7 @@ import java.util.Objects;
 @Repository
 public class AuthorsDaoJdbc implements AuthorsDao {
 
+    private static final String AUTHORS_QUERY = "select id,fullname from AUTHORS";
     private final NamedParameterJdbcOperations jdbc;
 
     public AuthorsDaoJdbc(NamedParameterJdbcOperations jdbc) {
@@ -32,15 +33,19 @@ public class AuthorsDaoJdbc implements AuthorsDao {
     public Authors getById(Long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.queryForObject("select * from AUTHORS where id=:id",
+        return jdbc.queryForObject(AUTHORS_QUERY + " where id=:id",
                 params, new AuthorsMapper());
+    }
+
+    public String getNameById(Long id) {
+        return getById(id).getFullName();
     }
 
     public Authors getByName(String name) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("name", "%" + name + "%");
 
-        List<Authors> authorsList = jdbc.query("select * from AUTHORS where fullname like :name",
+        List<Authors> authorsList = jdbc.query(AUTHORS_QUERY + " where fullname like :name",
                 params, new AuthorsMapper());
         if (!authorsList.isEmpty())
             return authorsList.get(0);
@@ -59,6 +64,6 @@ public class AuthorsDaoJdbc implements AuthorsDao {
     }
 
     public List<Authors> getAll() {
-        return jdbc.query("select * from AUTHORS", new AuthorsMapper());
+        return jdbc.query(AUTHORS_QUERY, new AuthorsMapper());
     }
 }

@@ -11,5 +11,7 @@ public interface GenresDao {
 
     Genres getByName(String name);
 
+    String getTitleById(Long id);
+
     Long insert(Genres genred);
 }

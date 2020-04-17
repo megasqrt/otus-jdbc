@@ -2,21 +2,21 @@ package ru.kan.otus.libcat.domain;
 
 public class Books extends Entity {
     private final String title;
-    private final Long author;
-    private final Long genre;
+    private final Long author_id;
+    private final Long genre_id;
 
     public Books(Long id, String title, Long author, Long genre) {
         super(id);
         this.title = title;
-        this.author = author;
-        this.genre = genre;
+        this.author_id = author;
+        this.genre_id = genre;
     }
 
     public Books(String booksTitle, Long author, Long genre) {
         super(null);
         this.title = booksTitle;
-        this.author = author;
-        this.genre = genre;
+        this.author_id = author;
+        this.genre_id = genre;
     }
 
 
@@ -25,10 +25,10 @@ public class Books extends Entity {
     }
 
     public Long getAuthorId() {
-        return author;
+        return author_id;
     }
 
     public Long getGenreId() {
-        return genre;
+        return genre_id;
     }
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Repository
 public class GenresDaoJdbc implements GenresDao {
+    private static final String GENRE_QUERY = "select id,title from genres";
     private final NamedParameterJdbcOperations jdbc;
 
     public GenresDaoJdbc(NamedParameterJdbcOperations jdbc) {
@@ -30,7 +31,7 @@ public class GenresDaoJdbc implements GenresDao {
     public Genres getById(Long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.queryForObject("select * from genres where id=:id",
+        return jdbc.queryForObject(GENRE_QUERY + " where id=:id",
                 params, new GenresMapper());
 
     }
@@ -39,11 +40,16 @@ public class GenresDaoJdbc implements GenresDao {
     public Genres getByName(String title) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("title", "%" + title + "%");
-        List<Genres> genresList = jdbc.query("select * from genres where title like :title",
+        List<Genres> genresList = jdbc.query(GENRE_QUERY + " where title like :title",
                 params, new GenresMapper());
         if (!genresList.isEmpty())
             return genresList.get(0);
         return null;
+    }
+
+    @Override
+    public String getTitleById(Long id) {
+        return getById(id).getTitle();
     }
 
     @Override
