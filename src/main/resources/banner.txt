@@ -1,0 +1,13 @@
+  __...--~~~~~-._   _.-~~~~~--...__
+    //               `V'               \\
+   //                 |                 \\
+  //__...--~~~~~~-._  |  _.-~~~~~~--...__\\
+ //__.....----~~~~._\ | /_.~~~~----.....__\\
+====================\\|//====================
+                    `---`
+Find book by id command: fbi 1 or findBookByID --id 1
+Find book by title command: fbt 1 or findBookByTitle --id 1
+Insert new book command: ib newBookTitle authorFullName bookGenre or insertBook --title newBookTitle --author authorFullName  --genre bookGenre
+Delete book command: db 1 or deleteBook 1
+List All book in catalog command: lb or listBook
+or use command help to view all command
