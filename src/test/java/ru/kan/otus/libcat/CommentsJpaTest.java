@@ -3,28 +3,29 @@ package ru.kan.otus.libcat;
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
-import ru.kan.otus.libcat.repositories.CommentRepositoryJpaImpl;
+import ru.kan.otus.libcat.repositories.CommentRepositoryJpa;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(SpringExtension.class)
 @DisplayName("Репозиторий для работы с комментариями должен ")
 @DataJpaTest
-@Import(CommentRepositoryJpaImpl.class)
 class CommentsJpaTest {
 
     private static final long EXPECTED_BOOK_ID = 1;
     private static final long EXPECTED_COMMENT_ID = 1;
 
     @Autowired
-    private CommentRepositoryJpaImpl commentRepo;
+    private CommentRepositoryJpa commentRepo;
 
     @Autowired
     private TestEntityManager em;
@@ -46,10 +47,11 @@ class CommentsJpaTest {
     void insert() {
         Books book = em.find(Books.class, EXPECTED_BOOK_ID);
         Comments newComment = new Comments(0, "test", book);
-        int firstCommentCount = commentRepo.listCommentsByBook(book).size();
+        int firstCommentCount = commentRepo.findAllCommentsByBook(book).size();
 
-        commentRepo.addComment(newComment);
-        int newCommentCount = commentRepo.listCommentsByBook(book).size();
+        commentRepo.save(newComment);
+
+        int newCommentCount = commentRepo.findAllCommentsByBook(book).size();
 
         assertThat(firstCommentCount).isLessThan(newCommentCount);
     }
@@ -58,7 +60,7 @@ class CommentsJpaTest {
     @Test
     void getAll() {
         Books book = em.find(Books.class, EXPECTED_BOOK_ID);
-        List<Comments> commentsList = commentRepo.listCommentsByBook(book);
+        List<Comments> commentsList = commentRepo.findAllCommentsByBook(book);
         assertThat(commentsList).isNotEmpty();
         assertThat(commentsList.size()).isEqualTo(2);
     }
