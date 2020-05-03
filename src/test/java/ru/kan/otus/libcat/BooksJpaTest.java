@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Genres;
-import ru.kan.otus.libcat.repositories.BookRepositoryJpaImpl;
+import ru.kan.otus.libcat.repositories.BooksRepositoryJpaImpl;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -19,34 +19,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий для работы с книгами должен ")
 @DataJpaTest
-@Import(BookRepositoryJpaImpl.class)
+@Import(BooksRepositoryJpaImpl.class)
 class BooksJpaTest {
 
     private static final int EXPECTED_BOOK_COUNT = 2;
     private static final String EXPECTED_BOOK_TITLE = "Война и мир";
+    private static final String EXPECTED_BOOK_AUTHOR = "Толстой Лев Николаевич";
+    private static final String EXPECTED_BOOK_GENRES = "Роман";
     private static final String NEW_BOOK_TITLE = "title";
     private static final long EXPECTED_BOOK_ID = 1;
 
     @Autowired
-    private BookRepositoryJpaImpl rjpa;
+    private BooksRepositoryJpaImpl bookRepo;
 
     @Autowired
     private TestEntityManager em;
 
     @DisplayName("возвращать ожидаемое кол-во книг в бд")
     @Test
-    void getCount() {
-        assertThat(rjpa.getCount()).isEqualTo(EXPECTED_BOOK_COUNT);
+    void shouldGetAllBookCount() {
+        assertThat(bookRepo.getCount()).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 
     @DisplayName("удалять запись в БД")
     @Test
-    void deleteById() {
-        val firstBook = em.find(Books.class, EXPECTED_BOOK_ID);
+    void shouldDeleteBookById() {
+        Books firstBook = em.find(Books.class, EXPECTED_BOOK_ID);
         assertThat(firstBook).isNotNull();
-        em.detach(firstBook);
 
-        rjpa.deleteById(EXPECTED_BOOK_ID);
+        bookRepo.delete(firstBook);
 
         val deletedBook = em.find(Books.class, EXPECTED_BOOK_ID);
 
@@ -55,22 +56,22 @@ class BooksJpaTest {
 
     @DisplayName("находить и возвращать книги по их id")
     @Test
-    void findById() {
-        assertThat(rjpa.findById(EXPECTED_BOOK_ID)).isNotNull();
-        assertThat(rjpa.findById(EXPECTED_BOOK_ID).get().getTitle()).isEqualTo(EXPECTED_BOOK_TITLE);
+    void shouldFindBookById() {
+        val book = bookRepo.findById(EXPECTED_BOOK_ID);
+        assertThat(book).isNotNull();
+        assertThat(book.get().getTitle()).isEqualTo(EXPECTED_BOOK_TITLE);
     }
 
     @DisplayName("добавляет новые книги в каталог")
     @Test
-    void insert() {
-
+    void shouldInsertBook() {
         Books newBook = new Books(0, NEW_BOOK_TITLE,
-                new Authors(0, "Толстой Лев Николаевич"),
-                new Genres(0, "Роман"),
+                new Authors(0, EXPECTED_BOOK_AUTHOR),
+                new Genres(0, EXPECTED_BOOK_GENRES),
                 new ArrayList<>());
 
-        Books expectedID = rjpa.save(newBook);
-        Optional<Books> expectedBook = rjpa.findById(expectedID.getId());
+        Books expectedID = bookRepo.save(newBook);
+        Optional<Books> expectedBook = bookRepo.findById(expectedID.getId());
 
         assertThat(expectedBook.get().getTitle()).isEqualTo(NEW_BOOK_TITLE);
         assertThat(expectedBook.get()).isEqualToComparingFieldByField(newBook);
@@ -78,14 +79,15 @@ class BooksJpaTest {
 
     @DisplayName("находить и возвращать книги по их id")
     @Test
-    void getByTitle() {
-        assertThat(rjpa.findByTitle("Война и мир")).isNotNull();
-        assertThat(rjpa.findByTitle("Война и мир").get(0).getId()).isEqualTo(EXPECTED_BOOK_ID);
+    void shouldGetBookByTitle() {
+        val book = bookRepo.findByTitle(EXPECTED_BOOK_TITLE);
+        assertThat(book).isNotNull();
+        assertThat(book.get(0).getId()).isEqualTo(EXPECTED_BOOK_ID);
     }
 
     @DisplayName("возвращает перечень всех книг")
     @Test
-    void getAll() {
-        assertThat(rjpa.findAll().size()).isEqualTo(EXPECTED_BOOK_COUNT);
+    void shouldGetAllBooks() {
+        assertThat(bookRepo.findAll().size()).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 }

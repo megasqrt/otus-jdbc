@@ -7,7 +7,7 @@
 
 List All book in catalog command: lb or listBook                    `---`
 Find book by id command: fbi 1 or findBookByID --id 1
-Insert new book command: ib newBookTitle authorFullName bookGenre or insertBook --title newBookTitle --author authorFullName  --genre bookGenre
+Insert new book command: adb newBookTitle authorFullName bookGenre or insertBook --title newBookTitle --author authorFullName  --genre bookGenre
 Delete book command: db 1 or deleteBook 1
-Add comment to book command: ac 1
+Add comment to book command: adc 1
 or use command help to view all command

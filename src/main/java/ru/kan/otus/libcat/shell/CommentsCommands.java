@@ -7,29 +7,38 @@ import org.springframework.shell.standard.ShellOption;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.repositories.CommentRepositoryJpa;
+import ru.kan.otus.libcat.services.BooksService;
+import ru.kan.otus.libcat.services.CommentsService;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class CommentsCommands {
 
-    private final CommentRepositoryJpa cJpa;
+    private final CommentRepositoryJpa commentRepo;
+    private final BooksService booksService;
+    private final CommentsService commentsService;
 
     @ShellMethod(value = "List all comment by Book id", key = {"lc", "listComment"})
     public String listCommentByBookId(@ShellOption long bookId) {
-        cJpa.listCommentsByBookId(bookId).forEach(comments ->
-                System.out.println(comments.getText()));
+        commentsService.printAllByBookId(bookId);
         return "This is all comment in this book";
     }
 
-    @ShellMethod(value = "Add comment by book id", key = {"ac", "addComment"})
+    @ShellMethod(value = "Add comment by book id", key = {"adc", "addComment"})
     public String addCommentByBookId(@ShellOption long bookId, @ShellOption String text) {
-        Comments comments = cJpa.addComment(new Comments(0, text, new Books(bookId, "", null, null, null)));
+        Comments comments = commentRepo.addComment(new Comments(0, text, new Books(bookId, "", null, null, null)));
         return "added comment" + comments.getId();
     }
 
     @ShellMethod(value = "Delete comment by book id", key = {"dc", "deleteComment"})
-    public String deleteCommentByBookId(@ShellOption long bookId) {
-        cJpa.deleteById(bookId);
+    public String deleteCommentById(@ShellOption long commentId) {
+        commentRepo.delete(commentRepo.findById(commentId).get());
+        return "Comment deleted";
+    }
+
+    @ShellMethod(value = "Delete comment by book id", key = {"dcb", "deleteCommentByBookId"})
+    public String deleteCommentsByBookId(@ShellOption long bookId) {
+        commentsService.deleteAllCommentByBookid(bookId);
         return "Comment deleted";
     }
 }

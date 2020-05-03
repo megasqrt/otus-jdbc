@@ -2,13 +2,14 @@ package ru.kan.otus.libcat.repositories;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Repository
@@ -18,10 +19,9 @@ public class CommentRepositoryJpaImpl implements CommentRepositoryJpa {
     private EntityManager em;
 
     @Override
-    public List<Comments> listCommentsByBookId(long bookId) {
-        //EntityGraph<?> entityGraph=em.getEntityGraph("authorAndGenre-eg");
-        TypedQuery<Comments> query = em.createQuery("select c from Comments c", Comments.class);
-        //query.setHint("javax.persistence.fetchgraph",entityGraph);
+    public List<Comments> listCommentsByBook(Books book) {
+        TypedQuery<Comments> query = em.createQuery("select c from Comments c where c.book=:book", Comments.class)
+                .setParameter("book", book);
         return query.getResultList();
     }
 
@@ -36,9 +36,13 @@ public class CommentRepositoryJpaImpl implements CommentRepositoryJpa {
     }
 
     @Override
-    public void deleteById(long Id) {
-        Query query = em.createQuery("delete from Comments c where c.id=:id");
-        query.setParameter("id", Id);
-        query.executeUpdate();
+    public void delete(Comments comment) {
+        em.remove(em.contains(comment) ? comment : em.merge(comment));
+        em.flush();
+    }
+
+    @Override
+    public Optional<Comments> findById(long id) {
+        return Optional.ofNullable(em.find(Comments.class, id));
     }
 }

@@ -19,4 +19,8 @@ public class Authors {
 
     @Column(name = "fullName", nullable = false, unique = true)
     private String fullName;
+
+    public Authors(String fullName) {
+        this.fullName = fullName;
+    }
 }

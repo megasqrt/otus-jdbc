@@ -20,4 +20,7 @@ public class Genres {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    public Genres(String title) {
+        this.title = title;
+    }
 }

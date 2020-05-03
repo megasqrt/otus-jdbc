@@ -5,13 +5,11 @@ import ru.kan.otus.libcat.domain.Books;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepositoryJpa {
+public interface BooksRepositoryJpa {
 
     Integer getCount();
 
-    void deleteById(long id);
-
-    void updateTitleById(long id, String title);
+    void delete(Books book);
 
     Optional<Books> findById(long id);
 

@@ -11,6 +11,8 @@ import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.repositories.CommentRepositoryJpaImpl;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий для работы с комментариями должен ")
@@ -20,10 +22,9 @@ class CommentsJpaTest {
 
     private static final long EXPECTED_BOOK_ID = 1;
     private static final long EXPECTED_COMMENT_ID = 1;
-    private static final long EXPECTED_NEW_COMMENT_ID = 2;
 
     @Autowired
-    private CommentRepositoryJpaImpl cJpa;
+    private CommentRepositoryJpaImpl commentRepo;
 
     @Autowired
     private TestEntityManager em;
@@ -33,30 +34,32 @@ class CommentsJpaTest {
     void deleteById() {
         val firstComment = em.find(Comments.class, EXPECTED_COMMENT_ID);
         assertThat(firstComment).isNotNull();
-        em.detach(firstComment);
 
-        cJpa.deleteById(EXPECTED_COMMENT_ID);
+        commentRepo.delete(firstComment);
 
         val deletedCommentarty = em.find(Comments.class, EXPECTED_COMMENT_ID);
-
         assertThat(deletedCommentarty).isNull();
     }
 
     @DisplayName("добавляет новые комментарии к книге")
     @Test
     void insert() {
+        Books book = em.find(Books.class, EXPECTED_BOOK_ID);
+        Comments newComment = new Comments(0, "test", book);
+        int firstCommentCount = commentRepo.listCommentsByBook(book).size();
 
-        Comments newComment = new Comments(0, "test", new Books(EXPECTED_BOOK_ID, null, null, null, null));
+        commentRepo.addComment(newComment);
+        int newCommentCount = commentRepo.listCommentsByBook(book).size();
 
-        Long addCommentID = cJpa.addComment(newComment).getId();
-        Long expectedCommentId = em.find(Comments.class, EXPECTED_NEW_COMMENT_ID).getId();
-
-        assertThat(addCommentID).isEqualTo(expectedCommentId);
+        assertThat(firstCommentCount).isLessThan(newCommentCount);
     }
 
     @DisplayName("возвращает все комментарии у книги")
     @Test
     void getAll() {
-        assertThat(cJpa.listCommentsByBookId(EXPECTED_BOOK_ID)).isNotEmpty();
+        Books book = em.find(Books.class, EXPECTED_BOOK_ID);
+        List<Comments> commentsList = commentRepo.listCommentsByBook(book);
+        assertThat(commentsList).isNotEmpty();
+        assertThat(commentsList.size()).isEqualTo(2);
     }
 }
