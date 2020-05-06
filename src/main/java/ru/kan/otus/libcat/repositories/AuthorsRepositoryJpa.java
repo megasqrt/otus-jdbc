@@ -1,12 +1,12 @@
 package ru.kan.otus.libcat.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import ru.kan.otus.libcat.domain.Authors;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthorsRepositoryJpa extends JpaRepository<Authors, Long> {
+public interface AuthorsRepositoryJpa extends MongoRepository<Authors, Long> {
 
     void delete(Authors authors);
 

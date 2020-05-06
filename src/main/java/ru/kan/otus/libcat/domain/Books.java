@@ -3,36 +3,25 @@ package ru.kan.otus.libcat.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "BOOKS")
-@NamedEntityGraph(name = "authorAndGenre-eg", attributeNodes = {
-        @NamedAttributeNode("author"),
-        @NamedAttributeNode("genre")
-})
+@Document(collection = "BOOKS")
 public class Books {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
-    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @OneToOne(targetEntity = Authors.class)
-    @JoinColumn(name = "author_id")
     private Authors author;
 
-    @OneToOne(targetEntity = Genres.class)
-    @JoinColumn(name = "genre_id")
     private Genres genre;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comments> comment;
 }

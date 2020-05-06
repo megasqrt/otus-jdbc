@@ -1,6 +1,8 @@
 package ru.kan.otus.libcat.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.domain.Books;
@@ -15,17 +17,19 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public
-class BooksServiceImpl implements BooksService {
+@EnableMongoRepositories
+public class BooksServiceImpl implements BooksService {
 
     private static final String EXCEPTION_UPDATE_MESSAGE = "Не удалось обновить книгу";
-    private final BooksRepositoryJpa bookRepo;
+    @Autowired
+    private BooksRepositoryJpa bookRepo;
     private final AuthorsRepositoryJpa authorsRepo;
     private final GenresRepositoryJpa genresrsRepo;
     private final MessagePrinter printer;
 
     @Override
     public void printAll() {
+        bookRepo.findAll();
         List<Books> BooksList = bookRepo.findAll();
         printer.printBooksHeader();
         BooksList.forEach(b -> printer.printBooksTable(b.getId(), b.getTitle(), b.getAuthor().getFullName(), b.getGenre().getTitle()));
@@ -37,8 +41,8 @@ class BooksServiceImpl implements BooksService {
         Genres genre = genresrsRepo.findByTitle(genreTitle).orElseGet(() -> genresrsRepo.save(new Genres(genreTitle)));
         List<Comments> comments = null;
 
-        Books book = new Books(0, bookTitle, author, genre, comments);
-        long newBookId = bookRepo.save(book).getId();
+        Books book = new Books("0", bookTitle, author, genre, comments);
+        long newBookId = Long.parseLong(bookRepo.save(book).getId());
         printer.pm("Insert a new book " + bookTitle + " under id:" + newBookId);
     }
 
