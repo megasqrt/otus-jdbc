@@ -21,7 +21,7 @@ public class CommentsServiceImpl implements CommentsService {
     public void printAllByBookId(long bookId) {
         Optional<Books> book = booksRepo.findById(bookId);
         messagePrinter.printCommentHeader(book.get().getTitle());
-        commentRepo.findAllCommentsByBook(book.get()).forEach(comments ->
+        book.get().getComment().forEach(comments ->
                 messagePrinter.printBookComment(comments.getId(), comments.getText())
         );
     }
@@ -35,7 +35,7 @@ public class CommentsServiceImpl implements CommentsService {
     @Override
     public void deleteAllCommentByBookid(Long bookId) {
         Books book = booksRepo.findById(bookId).get();
-        commentRepo.findAllCommentsByBook(book).forEach(commentRepo::delete);
+        book.getComment().forEach(commentRepo::delete);
     }
 
 

@@ -17,4 +17,6 @@ public interface BooksService {
     void updateBookGenre(long bookId, String genreTitle);
 
     void deleteBook(long bookId);
+
+    void addCommentToBook(long bookId, String text);
 }

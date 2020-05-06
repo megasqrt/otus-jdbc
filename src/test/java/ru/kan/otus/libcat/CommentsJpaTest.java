@@ -42,25 +42,26 @@ class CommentsJpaTest {
         assertThat(deletedCommentarty).isNull();
     }
 
+    //todo перенести в bookServiceTest
     @DisplayName("добавляет новые комментарии к книге")
     @Test
     void insert() {
         Books book = em.find(Books.class, EXPECTED_BOOK_ID);
-        Comments newComment = new Comments(0, "test", book);
-        int firstCommentCount = commentRepo.findAllCommentsByBook(book).size();
 
-        commentRepo.save(newComment);
+        int firstCommentCount = book.getComment().size();
+        book.getComment().add(new Comments(0, "test", book));
 
-        int newCommentCount = commentRepo.findAllCommentsByBook(book).size();
+        int newCommentCount = book.getComment().size();
 
         assertThat(firstCommentCount).isLessThan(newCommentCount);
     }
 
+    //todo перенести в bookServiceTest
     @DisplayName("возвращает все комментарии у книги")
     @Test
     void getAll() {
         Books book = em.find(Books.class, EXPECTED_BOOK_ID);
-        List<Comments> commentsList = commentRepo.findAllCommentsByBook(book);
+        List<Comments> commentsList = book.getComment();
         assertThat(commentsList).isNotEmpty();
         assertThat(commentsList.size()).isEqualTo(2);
     }

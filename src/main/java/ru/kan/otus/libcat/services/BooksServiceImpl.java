@@ -98,4 +98,11 @@ class BooksServiceImpl implements BooksService {
         Optional<Books> books = bookRepo.findById(bookId);
         books.ifPresent(bookRepo::delete);
     }
+
+    @Override
+    public void addCommentToBook(long bookId, String text) {
+        Books book = bookRepo.findById(bookId).get();
+        book.getComment().add(new Comments(0, text, book));
+        bookRepo.save(book);
+    }
 }

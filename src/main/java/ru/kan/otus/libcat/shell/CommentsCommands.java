@@ -24,11 +24,11 @@ public class CommentsCommands {
 
     @ShellMethod(value = "Add comment by book id", key = {"adc", "addComment"})
     public String addCommentByBookId(@ShellOption long bookId, @ShellOption String text) {
-        commentsService.addComment(bookId, text);
+        booksService.addCommentToBook(bookId, text);
         return "added comment";
     }
 
-    @ShellMethod(value = "Delete comment by id", key = {"dc", "deleteComment"})
+    @ShellMethod(value = "Delete comment by book id", key = {"dc", "deleteComment"})
     public String deleteCommentById(@ShellOption long commentId) {
         commentRepo.delete(commentRepo.findById(commentId).get());
         return "Comment deleted";
