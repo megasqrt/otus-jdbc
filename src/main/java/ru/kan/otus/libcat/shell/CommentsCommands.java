@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.kan.otus.libcat.domain.Books;
-import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.repositories.CommentRepositoryJpa;
 import ru.kan.otus.libcat.services.BooksService;
 import ru.kan.otus.libcat.services.CommentsService;
@@ -26,8 +24,8 @@ public class CommentsCommands {
 
     @ShellMethod(value = "Add comment by book id", key = {"adc", "addComment"})
     public String addCommentByBookId(@ShellOption long bookId, @ShellOption String text) {
-        Comments comments = commentRepo.addComment(new Comments(0, text, new Books(bookId, "", null, null, null)));
-        return "added comment" + comments.getId();
+        booksService.addCommentToBook(bookId, text);
+        return "added comment";
     }
 
     @ShellMethod(value = "Delete comment by book id", key = {"dc", "deleteComment"})

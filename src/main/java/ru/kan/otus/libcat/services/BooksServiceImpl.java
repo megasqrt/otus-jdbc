@@ -43,6 +43,13 @@ class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    public void addCommentToBook(long bookId, String text) {
+        Books book = bookRepo.findById(bookId).get();
+        book.getComment().add(new Comments(0, text, book));
+        bookRepo.save(book);
+    }
+
+    @Override
     public void addAuthorToBook(long bookId, String authorName) {
         Books book = bookRepo.findById(bookId).get();
         Authors author = authorsRepo.findByFullName(authorName).get();

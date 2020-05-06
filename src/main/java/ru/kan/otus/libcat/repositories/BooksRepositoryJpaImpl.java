@@ -1,31 +1,23 @@
 package ru.kan.otus.libcat.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kan.otus.libcat.domain.Books;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
+@RequiredArgsConstructor
 public class BooksRepositoryJpaImpl implements BooksRepositoryJpa {
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Override
-    public Integer getCount() {
-        return findAll().size();
-    }
+    private final EntityManager em;
 
     @Override
     public void delete(Books book) {
         em.remove(em.contains(book) ? book : em.merge(book));
-        em.flush();
     }
 
     @Override

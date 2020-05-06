@@ -1,26 +1,23 @@
 package ru.kan.otus.libcat.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kan.otus.libcat.domain.Genres;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
+@RequiredArgsConstructor
 public class GenresRepositoryJpaImpl implements GenresRepositoryJpa {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final EntityManager em;
 
     @Override
     public void delete(Genres genres) {
         em.remove(em.contains(genres) ? genres : em.merge(genres));
-        em.flush();
     }
 
     @Override

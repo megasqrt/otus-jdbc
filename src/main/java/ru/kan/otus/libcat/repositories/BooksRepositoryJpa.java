@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface BooksRepositoryJpa {
 
-    Integer getCount();
-
     void delete(Books book);
 
     Optional<Books> findById(long id);

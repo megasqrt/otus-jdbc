@@ -21,7 +21,7 @@ public class Comments {
     private String text;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Books book;
 
 }

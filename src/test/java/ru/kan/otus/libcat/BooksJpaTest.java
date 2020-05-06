@@ -38,7 +38,7 @@ class BooksJpaTest {
     @DisplayName("возвращать ожидаемое кол-во книг в бд")
     @Test
     void shouldGetAllBookCount() {
-        assertThat(bookRepo.getCount()).isEqualTo(EXPECTED_BOOK_COUNT);
+        assertThat(bookRepo.findAll().size()).isEqualTo(EXPECTED_BOOK_COUNT);
     }
 
     @DisplayName("удалять запись в БД")

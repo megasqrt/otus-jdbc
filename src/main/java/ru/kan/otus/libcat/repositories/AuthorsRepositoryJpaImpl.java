@@ -1,26 +1,23 @@
 package ru.kan.otus.libcat.repositories;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kan.otus.libcat.domain.Authors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
+@RequiredArgsConstructor
 public class AuthorsRepositoryJpaImpl implements AuthorsRepositoryJpa {
 
-    @PersistenceContext
-    private EntityManager em;
+    private final EntityManager em;
 
     @Override
     public void delete(Authors authors) {
         em.remove(em.contains(authors) ? authors : em.merge(authors));
-        em.flush();
     }
 
     @Override
