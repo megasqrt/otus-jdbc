@@ -64,10 +64,15 @@
             <artifactId>commons-lang</artifactId>
             <version>2.5</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.github.mongobee</groupId>
             <artifactId>mongobee</artifactId>
             <version>0.13</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.github.cloudyrock.mongock</groupId>
+            <artifactId>mongock-spring</artifactId>
+            <version>3.3.2</version>
         </dependency>
     </dependencies>
 

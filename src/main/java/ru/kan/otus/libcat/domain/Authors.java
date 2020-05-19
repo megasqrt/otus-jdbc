@@ -9,12 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "AUTHORS")
+@Document(collection = "Authors")
 public class Authors {
-
     @Id
-    private long id;
-
+    private String id;
     private String fullName;
 
     public Authors(String fullName) {

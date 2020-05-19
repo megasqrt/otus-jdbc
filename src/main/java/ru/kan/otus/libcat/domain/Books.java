@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
+/*https://www.baeldung.com/spring-data-mongodb-index-annotations-converter*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "BOOKS")
+@Document(collection = "Books")
 public class Books {
 
     @Id
@@ -23,5 +25,12 @@ public class Books {
 
     private Genres genre;
 
+    @Field("Comments")
     private List<Comments> comment;
+
+    public Books(String title, Authors authors, Genres genres) {
+        this.title = title;
+        this.author = authors;
+        this.genre = genres;
+    }
 }

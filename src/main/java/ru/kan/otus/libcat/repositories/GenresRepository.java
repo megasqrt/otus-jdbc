@@ -6,11 +6,11 @@ import ru.kan.otus.libcat.domain.Genres;
 import java.util.List;
 import java.util.Optional;
 
-public interface GenresRepositoryJpa extends MongoRepository<Genres, Long> {
+public interface GenresRepository extends MongoRepository<Genres, String> {
 
     void delete(Genres genre);
 
-    Optional<Genres> findById(long genreId);
+    Optional<Genres> findById(String genreId);
 
     Optional<Genres> findByTitle(String title);
 

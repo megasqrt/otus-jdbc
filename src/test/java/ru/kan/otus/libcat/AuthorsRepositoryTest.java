@@ -4,31 +4,26 @@ import lombok.val;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.context.annotation.ComponentScan;
 import ru.kan.otus.libcat.domain.Authors;
-import ru.kan.otus.libcat.repositories.AuthorsRepositoryJpa;
+import ru.kan.otus.libcat.repositories.AuthorsRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
+@DataMongoTest
+@ComponentScan("ru.kan.otus.libcat.mongock")
 @DisplayName("Репозиторий для работы с авторами должен ")
-@DataJpaTest
-class AuthorsRepositoryJpaTest {
+class AuthorsRepositoryTest {
 
     private static final int EXPECTED_AUTHOR_COUNT = 2;
     private static final String EXPECTED_AUTHOR_FULLNAME = "Толстой Лев Николаевич";
-    private static final long EXPECTED_AUTHOR_ID = 1;
+    private static final String EXPECTED_AUTHOR_ID = "1";
     private static final String NEW_AUTHOR_FULLNAME = "Пелевин";
 
     @Autowired
-    private AuthorsRepositoryJpa authorsRepo;
-
-    @Autowired
-    private TestEntityManager em;
+    private AuthorsRepository authorsRepo;
 
     @DisplayName("находить автора по его ID")
     @Test

@@ -2,9 +2,9 @@ package ru.kan.otus.libcat.services;
 
 public interface CommentsService {
 
-    void printAllByBookId(long bookid);
+    void printAllByBookId(String bookid);
 
-    void deleteAllCommentByBookid(Long bookId);
+    void deleteAllCommentByBookid(String bookId);
 
-    void addComment(long bookId, String text);
+    void addComment(String bookId, String text);
 }

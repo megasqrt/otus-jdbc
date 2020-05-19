@@ -6,11 +6,11 @@ import ru.kan.otus.libcat.domain.Books;
 import java.util.List;
 import java.util.Optional;
 
-public interface BooksRepositoryJpa extends MongoRepository<Books, Long> {
+public interface BooksRepository extends MongoRepository<Books, String> {
 
     void delete(Books book);
 
-    Optional<Books> findById(long id);
+    Optional<Books> findById(String id);
 
     List<Books> findByTitle(String title);
 

@@ -6,15 +6,15 @@ public interface BooksService {
 
     void addBook(String bookName, String authorName, String genreName);
 
-    void addAuthorToBook(long bookId, String authorName);
+    void addAuthorToBook(String bookId, String authorName);
 
-    void addGenresToBook(long bookId, String genreTitle);
+    void addGenresToBook(String bookId, String genreTitle);
 
-    void updateBookName(long bookId, String newBookName);
+    void updateBookName(String bookId, String newBookName);
 
-    void updateBookAuthor(long bookId, String authorName);
+    void updateBookAuthor(String bookId, String authorName);
 
-    void updateBookGenre(long bookId, String genreTitle);
+    void updateBookGenre(String bookId, String genreTitle);
 
-    void deleteBook(long bookId);
+    void deleteBook(String bookId);
 }

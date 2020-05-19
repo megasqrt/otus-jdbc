@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "COMMENTS")
+@Document(collection = "Comments")
 public class Comments {
-
     @Id
-    private long id;
-
+    private String id;
     private String text;
-
+    @DBRef
+    @Field(name = "book")
     private Books book;
-
 }

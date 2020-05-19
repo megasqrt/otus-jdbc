@@ -9,13 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "GENRES")
+@Document(collection = "Genres")
 public class Genres {
-
     @Id
-    private long id;
-
-
+    private String id;
     private String title;
 
     public Genres(String title) {

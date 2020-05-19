@@ -6,11 +6,11 @@ import ru.kan.otus.libcat.domain.Authors;
 import java.util.List;
 import java.util.Optional;
 
-public interface AuthorsRepositoryJpa extends MongoRepository<Authors, Long> {
+public interface AuthorsRepository extends MongoRepository<Authors, String> {
 
     void delete(Authors authors);
 
-    Optional<Authors> findById(long authorId);
+    Optional<Authors> findById(String authorId);
 
     Optional<Authors> findByFullName(String fullName);
 

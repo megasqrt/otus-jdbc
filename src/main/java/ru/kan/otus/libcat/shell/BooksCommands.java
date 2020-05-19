@@ -5,7 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.kan.otus.libcat.domain.Books;
-import ru.kan.otus.libcat.repositories.BooksRepositoryJpa;
+import ru.kan.otus.libcat.repositories.BooksRepository;
 import ru.kan.otus.libcat.services.BooksService;
 import ru.kan.otus.libcat.services.MessagePrinter;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BooksCommands {
 
-    private final BooksRepositoryJpa booksRepository;
+    private final BooksRepository booksRepository;
     private final BooksService booksService;
     private final MessagePrinter printer;
 
@@ -31,7 +31,7 @@ public class BooksCommands {
     }
 
     @ShellMethod(value = "Find book in catalog by Id", key = {"fbi", "findBookById"})
-    public String findBookByID(@ShellOption long id) {
+    public String findBookByID(@ShellOption String id) {
         Optional<Books> findBook = booksRepository.findById(id);
         if (findBook.isPresent()) {
             return "Find a book " + findBook.get().getTitle() + " author:" + findBook.get().getAuthor().getFullName() +
@@ -53,25 +53,25 @@ public class BooksCommands {
     }
 
     @ShellMethod(value = "Update book title by Id", key = {"ub", "updateBook"})
-    public String updateBookTitle(@ShellOption long id, @ShellOption String title) {
+    public String updateBookTitle(@ShellOption String id, @ShellOption String title) {
         booksService.updateBookName(id, title);
         return "Book title updated";
     }
 
     @ShellMethod(value = "Delete book in catalog by Id", key = {"db", "deleteBook"})
-    public String deleteBook(@ShellOption long id) {
+    public String deleteBook(@ShellOption String id) {
         booksService.deleteBook(id);
         return "Book deleted";
     }
 
     @ShellMethod(value = "Add Author to book ", key = {"adab", "addAuthorToBook"})
-    public String addAuthorToBook(@ShellOption long id, String fullName) {
+    public String addAuthorToBook(@ShellOption String id, String fullName) {
         booksService.addAuthorToBook(id, fullName);
         return "Author added";
     }
 
     @ShellMethod(value = "Add Genre to book ", key = {"adgb", "addGenreToBook"})
-    public String addGenrerToBook(@ShellOption long id, String title) {
+    public String addGenrerToBook(@ShellOption String id, String title) {
         booksService.addGenresToBook(id, title);
         return "Genre added";
     }

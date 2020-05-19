@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
-import ru.kan.otus.libcat.repositories.BooksRepositoryJpa;
-import ru.kan.otus.libcat.repositories.CommentRepositoryJpa;
+import ru.kan.otus.libcat.repositories.BooksRepository;
+import ru.kan.otus.libcat.repositories.CommentRepository;
 
 import java.util.Optional;
 
@@ -13,12 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CommentsServiceImpl implements CommentsService {
 
-    private final CommentRepositoryJpa commentRepo;
-    private final BooksRepositoryJpa booksRepo;
+    private final CommentRepository commentRepo;
+    private final BooksRepository booksRepo;
     private final MessagePrinter messagePrinter;
 
     @Override
-    public void printAllByBookId(long bookId) {
+    public void printAllByBookId(String bookId) {
         Optional<Books> book = booksRepo.findById(bookId);
         messagePrinter.printCommentHeader(book.get().getTitle());
         commentRepo.findAllCommentsByBook(book.get()).forEach(comments ->
@@ -27,13 +27,13 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    public void addComment(long bookId, String text) {
+    public void addComment(String bookId, String text) {
         Books book = booksRepo.findById(bookId).get();
-        commentRepo.save(new Comments(0, text, book));
+        commentRepo.save(new Comments("0", text, book));
     }
 
     @Override
-    public void deleteAllCommentByBookid(Long bookId) {
+    public void deleteAllCommentByBookid(String bookId) {
         Books book = booksRepo.findById(bookId).get();
         commentRepo.findAllCommentsByBook(book).forEach(commentRepo::delete);
     }
