@@ -2,7 +2,7 @@ package ru.kan.otus.libcat.services;
 
 public interface MessagePrinter {
 
-    public void pm(String message);
+    void pm(String message);
 
     void printBooksTable(Object... args);
 

@@ -15,15 +15,9 @@ import java.util.List;
 @ChangeLog
 public class DatabaseChangelog {
 
-    /*@ChangeSet(order = "001", id = "addSequens", author = "kan")
-    public void initSequens(DB db) {
-        DBCollection myCollection = db.getCollection("counters");
-        BasicDBObject doc = new BasicDBObject().append("seq", "0");
-        myCollection.insert(doc);
-    }*/
-    private List<Authors> authorList = new ArrayList<>();
-    private List<Genres> genreList = new ArrayList<>();
-    private List<Books> bookList = new ArrayList<>();
+    private final List<Authors> authorList = new ArrayList<>();
+    private final List<Genres> genreList = new ArrayList<>();
+    private final List<Books> bookList = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "addAuthors", author = "kan", runAlways = true)
     public void insertAuthor(MongoTemplate mt) {

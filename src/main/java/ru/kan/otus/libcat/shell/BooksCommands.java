@@ -33,13 +33,9 @@ public class BooksCommands {
     @ShellMethod(value = "Find book in catalog by Id", key = {"fbi", "findBookById"})
     public String findBookByID(@ShellOption String id) {
         Optional<Books> findBook = booksRepository.findById(id);
-        if (findBook.isPresent()) {
-            return "Find a book " + findBook.get().getTitle() + " author:" + findBook.get().getAuthor().getFullName() +
-                    " genre:" + findBook.get().getGenre().getTitle() +
-                    " by id:" + id;
-        } else {
-            return "Nothing found";
-        }
+        return findBook.map(books -> "Find a book " + books.getTitle() + " author:" + books.getAuthor().getFullName() +
+                " genre:" + books.getGenre().getTitle() +
+                " by id:" + id).orElse("Nothing found");
     }
 
     @ShellMethod(value = "Find book in catalog by tile", key = {"fbt", "findBookByTitle"})
