@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+
+<form id="edit-form" th:object="${book}" th:action="@{/edit(id=${book.id})}" th:method="POST" action="editBook.html">
+    <h1>Book Info:</h1>
+    <div class="form-group">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" disabled="disabled" type="text" th:value="*{id}" value="1" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" th:value="*{title}" value="BookTitle" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="author-input">Author:</label>
+        <select id="author-input" name="author" class="form-control">
+            <option th:each="author : ${authorList}" th:text="${author.fullName}" th:value="${author.id}"
+                    th:selected="${book.author.id==author.id}">Author
+            </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="genre-input">Genre:</label>
+        <select id="genre-input" name="genre" class="form-control">
+            <option th:each="genre : ${genreList}" th:text="${genre.title}" th:value="${genre.id}"
+                    th:selected="${book.genre.id==genre.id}">Genre
+            </option>
+        </select>
+    </div>
+    <div class="form-group" th:each="comment : ${book.comment}">
+        <div th:text="Comment+${comment.id}">Comment:</div>
+        <div class="form-control" th:text="${comment.text}">CommentText</div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/}" href="index.html">Cancel</a>
+    </div>
+</form>
+
+</body>
+</html>
