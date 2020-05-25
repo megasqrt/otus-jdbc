@@ -19,4 +19,9 @@ public class Comments {
     @DBRef
     @Field(name = "book")
     private Books book;
+
+    @Override
+    public String toString() {
+        return "{id=" + id + ",text=" + text + ",bookId=" + book.getId() + "}";
+    }
 }

@@ -64,6 +64,6 @@ class CommentsTest {
         Optional<Books> book = booksRepo.findById(EXPECTED_BOOK_ID);
         List<Comments> commentsList = commentRepo.findAllCommentsByBook(book.get());
         assertThat(commentsList).isNotEmpty();
-        Assertions.assertEquals(1, commentsList.size());
+        Assertions.assertEquals(2, commentsList.size());
     }
 }
