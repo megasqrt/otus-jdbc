@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.repositories.AuthorsRepository;
@@ -34,11 +35,13 @@ public class BooksController {
     }
 
 
-    @GetMapping("/")
-    public String listPage(Model model) {
-        List<Books> booksList = booksRepo.findAll();
+    @GetMapping("/api/books")
+    public Flux<Books> listPage() {
+        System.out.println("1");
+       /* List<Books> booksList = booksRepo.findAll();
         model.addAttribute("bookList", booksList);
-        return "index";
+        return "index";*/
+        return booksRepo.findAll();
     }
 
     @GetMapping("/add")
@@ -56,10 +59,10 @@ public class BooksController {
 
     @GetMapping("/edit")
     public String showEditPage(@RequestParam(value = "id", required = true) String id, Model model) {
-        Books book = booksRepo.findById(id).orElseThrow(NotFoundException::new);
+       /* Books book = booksRepo.findById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("book", book);
         model.addAttribute("authorList", authorRepo.findAll());
-        model.addAttribute("genreList", genresRepo.findAll());
+        model.addAttribute("genreList", genresRepo.findAll());*/
         return "editBook";
     }
 
