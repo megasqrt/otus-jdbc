@@ -3,17 +3,10 @@
 <head th:include="head"></head>
 <body>
 <div th:include="nav"></div>
-<div class="container">
-    <main role="main" class="container">
-        <h1 class="mt-5">LibCat</h1>
-        <span class="lead">Онлайн библиотека на Spring</span>
-    </main>
-</div>
 
 <h1>Books:</h1>
-<a type="button" class="btn btn-secondary" th:href="@{/add}" href="addBook.html">Add new book</a>
-
-<table class="table table-striped">
+<a type="button" class="btn btn-secondary" href="/addBook">Add new book</a>
+<table class="table table-striped" id="books-table">
     <thead class="thead-dark">
     <tr>
         <th scope="col">ID</th>
@@ -24,23 +17,49 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${bookList}">
-        <th scope="row" th:text="${book.id}">1</th>
-        <td th:text="${book.title}">Lukomorie</td>
-        <td th:each="author : ${book.author}">
-            <p th:text="${author.fullName}">Pushkin2</p>
-        </td>
-        <td th:each="genre : ${book.genre}">
-            <p th:text="${genre.title}">Story</p>
-        </td>
-        <td>
-            <a type="button" class="btn btn-success" th:href="@{/edit(id=${book.id})}" href="editBook.html">Edit</a>
-            <form th:action="@{/delete(id=${book.id})}" method="post">
-                <input type="submit" class="btn btn-danger" value="Delete"/>
-            </form>
-        </td>
-    </tr>
+    <template>
+        <tr v-for="book in books" :key="book.id">
+            <td>{{book.id}}</td>
+            <td>{{book.title}}</td>
+            <td>{{book.author.fullName}}</td>
+            <td>{{book.genre.title}}</td>
+            <td>
+                <a class="btn btn-success" v-bind:href="'/editBook?id='+book.id">Edit</a>
+                <button class="btn btn-danger" v-on:click="deleteBook(book.id)">Delete</button>
+            </td>
+        </tr>
+    </template>
     </tbody>
 </table>
+<script>
+     fetch('/api/books')
+        .then(response => response.json())
+        .then(books => {
+            new Vue({
+                el: '#books-table',
+                data: {
+                    books : books
+                },
+                methods: {
+                 deleteBook(id) {
+                     fetch('http://localhost:8080/api/books/'+id, {
+                          method: 'DELETE',
+                        })
+                        .then(res => res.text()) // or res.json()
+                        .then(res => console.log(res))
+                     window.location.reload()
+                  },
+                  editBook(id){
+                        fetch('http://localhost:8080/api/books/'+id, {
+                                                  method: 'DELETE',
+                                                })
+                                                .then(res => res.text()) // or res.json()
+                                                .then(res => console.log(res))
+                  }
+                }
+            })
+        });
+
+</script>
 </body>
 </html>

@@ -1,13 +1,11 @@
 package ru.kan.otus.libcat.repositories;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import ru.kan.otus.libcat.domain.Books;
 
 public interface BooksRepository extends ReactiveMongoRepository<Books, String> {
 
-    Mono<Void> delete(Books book);
+   /* Mono<Void> delete(Books book);
 
     Mono<Books> findById(String id);
 
@@ -15,5 +13,5 @@ public interface BooksRepository extends ReactiveMongoRepository<Books, String> 
 
     Flux<Books> findAll();
 
-    Mono<Books> save(Books books);
+    Mono<Books> save(Books books);*/
 }

@@ -1,4 +1,4 @@
-package ru.kan.otus.libcat.mongock;
+package ru.kan.otus.libcat.config;
 
 import com.github.cloudyrock.mongock.SpringMongock;
 import com.github.cloudyrock.mongock.SpringMongockBuilder;
@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 public class MongockConfg {
 
-    private static final String CHANGELOGS_PACKAGE = "ru.kan.otus.libcat.mongock.changelog";
+    private static final String CHANGELOGS_PACKAGE = "ru.kan.otus.libcat.config.changelog";
 
     @Bean
     public SpringMongock springMongock(MongoTemplate mongoTemplate, Environment springEnvironment) {

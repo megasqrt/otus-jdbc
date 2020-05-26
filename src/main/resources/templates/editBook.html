@@ -3,41 +3,84 @@
 <head th:include="head"></head>
 <body>
 
-<form id="edit-form" th:object="${book}" th:action="@{/edit(id=${book.id})}" th:method="POST" action="editBook.html">
+<form id="edit-book-form" action="/">
     <h1>Book Info:</h1>
     <div class="form-group">
         <label for="id-input">ID:</label>
-        <input id="id-input" name="id" disabled="disabled" type="text" th:value="*{id}" value="1" class="form-control"/>
+        <input id="id-input" name="id" disabled="disabled" type="text" value="1" class="form-control"/>
     </div>
     <div class="form-group">
         <label for="title-input">Title:</label>
-        <input id="title-input" name="title" type="text" th:value="*{title}" value="BookTitle" class="form-control"/>
+        <input id="title-input" name="title" type="text" value="title" class="form-control"/>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="authors-data">
         <label for="author-input">Author:</label>
         <select id="author-input" name="author" class="form-control">
-            <option th:each="author : ${authorList}" th:text="${author.fullName}" th:value="${author.id}"
-                    th:selected="${book.author.id==author.id}">Author
-            </option>
+            <!--th:selected="${book.genre.id==genre.id}">Genre-->
+            <option v-for="authorIt in authors" v-bind:value="authorIt.id">{{authorIt.fullName}}</option>
         </select>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="genres-data">
         <label for="genre-input">Genre:</label>
         <select id="genre-input" name="genre" class="form-control">
-            <option th:each="genre : ${genreList}" th:text="${genre.title}" th:value="${genre.id}"
-                    th:selected="${book.genre.id==genre.id}">Genre
-            </option>
+            <option v-for="genreIt in genres" v-bind:value="genreIt.id">{{genreIt.title}}</option>
         </select>
-    </div>
-    <div class="form-group" th:each="comment : ${book.comment}">
-        <div th:text="Comment+${comment.id}">Comment:</div>
-        <div class="form-control" th:text="${comment.text}">CommentText</div>
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-success">Save</button>
-        <a type="button" class="btn btn-danger" th:href="@{/}" href="index.html">Cancel</a>
+        <a type="button" class="btn btn-danger" href="/">Cancel</a>
     </div>
 </form>
+<script>
+     fetch('/api/authors')
+        .then(response => response.json())
+        .then(authors => {
+            new Vue({
+                el: '#authors-data',
+                data: {
+                    authors: authors
+                }
+            })
+        });
 
+</script>
+<script>
+     fetch('/api/genres')
+        .then(response => response.json())
+        .then(genres => {
+            new Vue({
+                el: '#genres-data',
+                data: {
+                    genres: genres
+                }
+            })
+        });
+
+</script>
+<script>
+$("#edit-book-form").submit(function(event) {
+	    event.preventDefault();
+	    var data = {}
+		data["title"] = $("#title-input").val();
+	    var genre = {}
+	    genre["id"] = $("#genre-input option:selected").val();
+	    data["genre"] = genre;
+
+	    var author = {}
+	    author["id"] = $("#author-input option:selected").val();
+	    data["author"] = author;
+	    $.post({
+	         url : '/api/books',
+	         contentType: "application/json",
+	         data: JSON.stringify(data),
+	         dataType: 'json',
+	         success: function (data) {
+	             var url = "/";
+	             $(location).attr('href',url);
+	         }
+	      })
+	});
+
+</script>
 </body>
 </html>
