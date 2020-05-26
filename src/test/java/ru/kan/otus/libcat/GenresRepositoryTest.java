@@ -1,25 +1,15 @@
 package ru.kan.otus.libcat;
 
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.ComponentScan;
-import ru.kan.otus.libcat.domain.Genres;
-import ru.kan.otus.libcat.repositories.GenresRepository;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataMongoTest
 @ComponentScan("ru.kan.otus.libcat.mongock")
 @DisplayName("Репозиторий для работы с жанрами должен ")
 class GenresRepositoryTest {
 
-    private static final int EXPECTED_GENRE_COUNT = 2;
+   /* private static final int EXPECTED_GENRE_COUNT = 2;
     private static final String EXPECTED_GENRE_TITLE = "Роман";
     private static final String EXPECTED_GENRE_ID = "1";
     private static final String NEW_GENRE_TITLE = "Фентези";
@@ -57,5 +47,5 @@ class GenresRepositoryTest {
         genreRepo.save(newGenre);
         Optional<Genres> foundGenre = genreRepo.findByTitle(NEW_GENRE_TITLE);
         Assert.assertEquals(newGenre, foundGenre.get());
-    }
+    }*/
 }

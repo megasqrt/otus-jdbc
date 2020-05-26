@@ -1,20 +1,17 @@
 package ru.kan.otus.libcat.repositories;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import ru.kan.otus.libcat.domain.Books;
 
-import java.util.List;
-import java.util.Optional;
+public interface BooksRepository extends ReactiveMongoRepository<Books, String> {
 
-public interface BooksRepository extends MongoRepository<Books, String> {
+   /* Mono<Void> delete(Books book);
 
-    void delete(Books book);
+    Mono<Books> findById(String id);
 
-    Optional<Books> findById(String id);
+    Flux<Books> findByTitle(String title);
 
-    List<Books> findByTitle(String title);
+    Flux<Books> findAll();
 
-    List<Books> findAll();
-
-    Books save(Books books);
+    Mono<Books> save(Books books);*/
 }

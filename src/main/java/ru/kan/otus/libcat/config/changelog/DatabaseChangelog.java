@@ -1,15 +1,11 @@
-package ru.kan.otus.libcat.mongock.changelog;
+package ru.kan.otus.libcat.config.changelog;
 
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.domain.Books;
-import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.domain.Genres;
 
 import java.util.ArrayList;
@@ -21,7 +17,6 @@ public class DatabaseChangelog {
     private final List<Authors> authorList = new ArrayList<>();
     private final List<Genres> genreList = new ArrayList<>();
     private final List<Books> bookList = new ArrayList<>();
-    private final List<Comments> commentsList = new ArrayList<>();
 
     @ChangeSet(order = "001", id = "addAuthors", author = "kan", runAlways = true)
     public void insertAuthor(MongoTemplate mt) {
@@ -41,30 +36,10 @@ public class DatabaseChangelog {
 
     @ChangeSet(order = "003", id = "addBooks", author = "kan", runAlways = true)
     public void insertBook(MongoTemplate mt) {
-        Books b1 = new Books("1", "Война и мир", authorList.get(0), genreList.get(0), null);
-        Books b2 = new Books("2", "У лукоморья дуб зелёный", authorList.get(1), genreList.get(1), null);
+        Books b1 = new Books("1", "Война и мир", authorList.get(0), genreList.get(0));
+        Books b2 = new Books("2", "У лукоморья дуб зелёный", authorList.get(1), genreList.get(1));
         bookList.add(mt.save(b1));
         bookList.add(mt.save(b2));
     }
 
-    @ChangeSet(order = "004", id = "addComments", author = "kan", runAlways = true)
-    public void insertComments(MongoTemplate mt) {
-        Comments c1 = new Comments("1", "Великолепно", bookList.get(0));
-        Comments c2 = new Comments("2", "Шедеврально", bookList.get(0));
-        commentsList.add(c1);
-        commentsList.add(c2);
-        mt.save(c1);
-        mt.save(c2);
-        updateBookComment(mt, "1", commentsList);
-        Comments c3 = new Comments("3", "Падёт", bookList.get(1));
-        mt.save(c3);
-    }
-
-    private void updateBookComment(MongoTemplate mt, String bookId, List<Comments> comments) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(bookId));
-        Update update = new Update();
-        update.set("comment", comments);
-        mt.updateFirst(query, update, Books.class);
-    }
 }
