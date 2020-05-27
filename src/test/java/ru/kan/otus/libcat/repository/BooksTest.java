@@ -5,16 +5,19 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Genres;
+import ru.kan.otus.libcat.repositories.AuthorsRepository;
 import ru.kan.otus.libcat.repositories.BooksRepository;
+import ru.kan.otus.libcat.repositories.GenresRepository;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+@DataJpaTest
 @DisplayName("Репозиторий для работы с книгами должен ")
 class BooksTest {
 
@@ -28,6 +31,10 @@ class BooksTest {
 
     @Autowired
     private BooksRepository bookRepo;
+    @Autowired
+    private AuthorsRepository authorsRepo;
+    @Autowired
+    private GenresRepository genresRepo;
 
     @DisplayName("находить и возвращать книги по их id")
     @Test
@@ -54,9 +61,10 @@ class BooksTest {
     @DisplayName("добавляет новые книги в каталог")
     @Test
     void shouldInsertBook() {
-        Books newBook = new Books(0, NEW_BOOK_TITLE,
-                new Authors(EXPECTED_BOOK_AUTHOR),
-                new Genres(EXPECTED_BOOK_GENRES));
+
+        Authors createdAuthor = authorsRepo.save(Authors.builder().fullname(EXPECTED_BOOK_AUTHOR).build());
+        Genres createdGenre = genresRepo.save(Genres.builder().title(EXPECTED_BOOK_GENRES).build());
+        Books newBook = Books.builder().title(NEW_BOOK_TITLE).author(createdAuthor).genre(createdGenre).build();
 
         Books expectedID = bookRepo.save(newBook);
         Optional<Books> expectedBook = bookRepo.findById(expectedID.getId());

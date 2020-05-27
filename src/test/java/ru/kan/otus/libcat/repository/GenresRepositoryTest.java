@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
 import ru.kan.otus.libcat.domain.Genres;
 import ru.kan.otus.libcat.repositories.GenresRepository;
 
@@ -15,7 +14,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@ComponentScan("ru.kan.otus.libcat.mongock")
 @DisplayName("Репозиторий для работы с жанрами должен ")
 class GenresRepositoryTest {
 
