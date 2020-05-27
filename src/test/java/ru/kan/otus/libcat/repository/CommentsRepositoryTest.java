@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @DataMongoTest
 @ComponentScan("ru.kan.otus.libcat.mongock")
 @DisplayName("Репозиторий для работы с комментариями должен ")
-class CommentsTest {
+class CommentsRepositoryTest {
 
   /*  private static final String EXPECTED_BOOK_ID = "1";
     private static final String EXPECTED_COMMENT_ID = "1";

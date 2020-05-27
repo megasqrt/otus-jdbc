@@ -1,6 +1,6 @@
-package ru.kan.otus.libcat.configs;
+package ru.kan.otus.libcat.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,21 +17,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UsersRepository userRepository;
-
-    @Autowired
-    public UserDetailsServiceImpl(UsersRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UsersRepository userRepository;
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String name) {
-        Users applicationUser = userRepository.findByUsername(name);
+    public UserDetails loadUserByUsername(String username) {
+        Users applicationUser = userRepository.findByUsername(username);
         if (applicationUser == null) {
-            throw new UsernameNotFoundException(name);
+            throw new UsernameNotFoundException(username);
         }
         return new org.springframework.security.core.userdetails.User(applicationUser.getUsername(), applicationUser.getPassword(),
                 getAuthorityList(applicationUser.getRoles()));

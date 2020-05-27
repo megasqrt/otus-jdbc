@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@DisplayName("Testing UserDetailsService")
+@DisplayName("UserDetailsService должен")
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class UserDetailsServiceImplTest {
@@ -54,7 +54,8 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void loadUserByUsername() {
+    @DisplayName("поднимать данные usera по его имени")
+    public void shouldBeloadUserByUsername() {
         UserDetails userDetails = userDetailsService.loadUserByUsername(NAME);
         assertThat(userDetails).isEqualToComparingOnlyGivenFields(admin, "username", "password");
         assertThat(userDetails.getAuthorities()).isEqualTo(

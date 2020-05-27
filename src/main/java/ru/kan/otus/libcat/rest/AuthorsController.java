@@ -3,7 +3,10 @@ package ru.kan.otus.libcat.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.repositories.AuthorsRepository;
 
@@ -47,8 +50,8 @@ public class AuthorsController {
         return "redirect:/authors";
     }
 
-    @DeleteMapping("/authors/delete{id}")
-    public String deleteAuthors(@PathVariable Long id) {
+    @PostMapping("/authors/delete")
+    public String deleteAuthors(@RequestParam(value = "id", required = true) long id) {
         authorRepo.deleteById(id);
         return "redirect:/authors";
     }
