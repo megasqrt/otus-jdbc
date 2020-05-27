@@ -3,44 +3,5 @@
 <head th:include="head"></head>
 <body>
 <div th:include="nav"></div>
-<div class="container">
-    <main role="main" class="container">
-        <h1 class="mt-5">LibCat</h1>
-        <span class="lead">Онлайн библиотека на Spring</span>
-    </main>
-</div>
-
-<h1>Books:</h1>
-<a type="button" class="btn btn-secondary" th:href="@{/add}" href="addBook.html">Add new book</a>
-
-<table class="table table-striped">
-    <thead class="thead-dark">
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Genre</th>
-        <th scope="col">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="book : ${bookList}">
-        <th scope="row" th:text="${book.id}">1</th>
-        <td th:text="${book.title}">Lukomorie</td>
-        <td th:each="author : ${book.author}">
-            <p th:text="${author.fullName}">Pushkin2</p>
-        </td>
-        <td th:each="genre : ${book.genre}">
-            <p th:text="${genre.title}">Story</p>
-        </td>
-        <td>
-            <a type="button" class="btn btn-success" th:href="@{/edit(id=${book.id})}" href="editBook.html">Edit</a>
-            <form th:action="@{/delete(id=${book.id})}" method="post">
-                <input type="submit" class="btn btn-danger" value="Delete"/>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
 </body>
 </html>

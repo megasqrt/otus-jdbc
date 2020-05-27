@@ -4,6 +4,8 @@ spring:
       url: mongodb://localhost
       port: 666
       database: libcat
+  liquibase:
+    change-log: classpath:liquibase/changelog.xml
 
 logging:
   level:

@@ -1,20 +1,11 @@
 package ru.kan.otus.libcat.repositories;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.kan.otus.libcat.domain.Authors;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface AuthorsRepository extends MongoRepository<Authors, String> {
+public interface AuthorsRepository extends JpaRepository<Authors, Long> {
 
-    void delete(Authors authors);
-
-    Optional<Authors> findById(String authorId);
-
-    Optional<Authors> findByFullName(String fullName);
-
-    List<Authors> findAll();
-
-    Authors save(Authors authors);
+    Optional<Authors> findByFullname(String fullname);
 }

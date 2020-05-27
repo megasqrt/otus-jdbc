@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="head"></head>
 <body>
-<form id="edit-form" th:action="@{/add}" th:method="POST" action="index.html">
+<form id="edit-form" th:action="@{/books/add}" th:method="POST" action="books.html">
     <div class="form-group">
         <label for="title-input">Title:</label>
         <input id="title-input" name="title" type="text" placeholder="Enter book title" class="form-control"/>
@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="author-input">Author:</label>
         <select id="author-input" name="author" class="form-control">
-            <option th:each="author : ${authorList}" th:text="${author.fullName}" th:value="${author.id}">Author
+            <option th:each="author : ${authorList}" th:text="${author.fullname}" th:value="${author.id}">Author
             </option>
         </select>
     </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-success">Save</button>
-        <a type="button" class="btn btn-danger" th:href="@{/}" href="index.html">Cancel</a>
+        <a type="button" class="btn btn-danger" th:href="@{/books}" href="books.html">Cancel</a>
     </div>
 </form>
 </body>

@@ -1,21 +1,8 @@
-package ru.kan.otus.libcat;
+package ru.kan.otus.libcat.repository;
 
-import lombok.val;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.ComponentScan;
-import ru.kan.otus.libcat.domain.Books;
-import ru.kan.otus.libcat.domain.Comments;
-import ru.kan.otus.libcat.repositories.BooksRepository;
-import ru.kan.otus.libcat.repositories.CommentRepository;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataMongoTest
@@ -23,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Репозиторий для работы с комментариями должен ")
 class CommentsTest {
 
-    private static final String EXPECTED_BOOK_ID = "1";
+  /*  private static final String EXPECTED_BOOK_ID = "1";
     private static final String EXPECTED_COMMENT_ID = "1";
 
     @Autowired
@@ -65,5 +52,5 @@ class CommentsTest {
         List<Comments> commentsList = commentRepo.findAllCommentsByBook(book.get());
         assertThat(commentsList).isNotEmpty();
         Assertions.assertEquals(2, commentsList.size());
-    }
+    }*/
 }

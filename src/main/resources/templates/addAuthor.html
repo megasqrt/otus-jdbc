@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+<form id="edit-form" th:action="@{/authors/add}" th:method="POST" action="authors.html">
+    <div class="form-group">
+        <label for="fullname-input">FullName:</label>
+        <input id="fullname-input" name="fullname" type="text" placeholder="Enter author fullname"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/authors}" href="authors.html">Cancel</a>
+    </div>
+</form>
+</body>
+</html>
