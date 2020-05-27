@@ -1,23 +1,23 @@
-package ru.kan.otus.libcat;
+package ru.kan.otus.libcat.repository;
 
 import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.kan.otus.libcat.domain.Authors;
 import ru.kan.otus.libcat.domain.Books;
 import ru.kan.otus.libcat.domain.Genres;
+import ru.kan.otus.libcat.repositories.AuthorsRepository;
 import ru.kan.otus.libcat.repositories.BooksRepository;
+import ru.kan.otus.libcat.repositories.GenresRepository;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest
-@ComponentScan("ru.kan.otus.libcat.mongock")
+@DataJpaTest
 @DisplayName("Репозиторий для работы с книгами должен ")
 class BooksTest {
 
@@ -26,11 +26,15 @@ class BooksTest {
     private static final String EXPECTED_BOOK_AUTHOR = "Толстой Лев Николаевич";
     private static final String EXPECTED_BOOK_GENRES = "Роман";
     private static final String NEW_BOOK_TITLE = "title";
-    private static final String EXPECTED_BOOK_ID = "1";
-    private static final String DELETED_BOOK_ID = "2";
+    private static final long EXPECTED_BOOK_ID = 1;
+    private static final long DELETED_BOOK_ID = 2;
 
     @Autowired
     private BooksRepository bookRepo;
+    @Autowired
+    private AuthorsRepository authorsRepo;
+    @Autowired
+    private GenresRepository genresRepo;
 
     @DisplayName("находить и возвращать книги по их id")
     @Test
@@ -54,17 +58,16 @@ class BooksTest {
     }
 
 
-
     @DisplayName("добавляет новые книги в каталог")
     @Test
     void shouldInsertBook() {
-        Books newBook = new Books("0", NEW_BOOK_TITLE,
-                new Authors(EXPECTED_BOOK_AUTHOR),
-                new Genres(EXPECTED_BOOK_GENRES),
-                new ArrayList<>());
+
+        Authors createdAuthor = authorsRepo.save(Authors.builder().fullname(EXPECTED_BOOK_AUTHOR).build());
+        Genres createdGenre = genresRepo.save(Genres.builder().title(EXPECTED_BOOK_GENRES).build());
+        Books newBook = Books.builder().title(NEW_BOOK_TITLE).author(createdAuthor).genre(createdGenre).build();
 
         Books expectedID = bookRepo.save(newBook);
-        val expectedBook = bookRepo.findById(expectedID.getId());
+        Optional<Books> expectedBook = bookRepo.findById(expectedID.getId());
 
         assertThat(expectedBook.get().getTitle()).isEqualTo(NEW_BOOK_TITLE);
         assertThat(expectedBook.get()).isEqualToComparingFieldByField(newBook);

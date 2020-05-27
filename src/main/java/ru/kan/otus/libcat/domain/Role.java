@@ -12,17 +12,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "authors")
-public class Authors {
+@Table(name = "role")
+public class Role {
 
     @Id
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(name = "fullname", nullable = false, unique = true)
-    private String fullname;
+    @Column(name = "name")
+    private String name;
 
-    public Authors(String fullname) {
-        this.fullname = fullname;
-    }
 }

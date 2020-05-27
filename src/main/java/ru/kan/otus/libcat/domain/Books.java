@@ -1,44 +1,36 @@
 package ru.kan.otus.libcat.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
 
-/*https://www.baeldung.com/spring-data-mongodb-index-annotations-converter*/
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "Books")
+@Entity
+@Table(name = "BOOKS")
+@NamedEntityGraph(name = "authorAndGenre-eg", attributeNodes = {
+        @NamedAttributeNode("author"),
+        @NamedAttributeNode("genre")
+})
 public class Books {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
+    @OneToOne(targetEntity = Authors.class)
+    @JoinColumn(name = "author_id")
     private Authors author;
 
+    @OneToOne(targetEntity = Genres.class)
+    @JoinColumn(name = "genre_id")
     private Genres genre;
-
-    @Field("Comments")
-    private List<Comments> comment;
-
-    public Books(String title, Authors authors, Genres genres) {
-        this.title = title;
-        this.author = authors;
-        this.genre = genres;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder commentTmp = null;
-        comment.forEach(c -> commentTmp.append(c.getText()));
-        return "{id=" + id + ",title=" + title + ",authorName=" + author.getFullName() + ",genreTitle=" + genre.getTitle() + ",comments=" + Objects.requireNonNull(commentTmp).toString() + "}";
-    }
 }

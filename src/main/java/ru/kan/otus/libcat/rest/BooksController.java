@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kan.otus.libcat.domain.Books;
-import ru.kan.otus.libcat.domain.Comments;
 import ru.kan.otus.libcat.repositories.AuthorsRepository;
 import ru.kan.otus.libcat.repositories.BooksRepository;
-import ru.kan.otus.libcat.repositories.CommentRepository;
 import ru.kan.otus.libcat.repositories.GenresRepository;
 
 import java.util.List;
@@ -22,40 +20,36 @@ public class BooksController {
     private final BooksRepository booksRepo;
     private final AuthorsRepository authorRepo;
     private final GenresRepository genresRepo;
-    private final CommentRepository commentRepo;
-
 
     @Autowired
-    public BooksController(BooksRepository repository, AuthorsRepository authorRepo, GenresRepository genresRepo, CommentRepository commentRepo) {
+    public BooksController(BooksRepository repository, AuthorsRepository authorRepo, GenresRepository genresRepo) {
         this.booksRepo = repository;
         this.authorRepo = authorRepo;
         this.genresRepo = genresRepo;
-        this.commentRepo = commentRepo;
     }
 
-
-    @GetMapping("/")
+    @GetMapping("/books")
     public String listPage(Model model) {
         List<Books> booksList = booksRepo.findAll();
         model.addAttribute("bookList", booksList);
-        return "index";
+        return "books";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/books/add")
     public String showAddPage(Model model) {
         model.addAttribute("authorList", authorRepo.findAll());
         model.addAttribute("genreList", genresRepo.findAll());
         return "addBook";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/books/add")
     public String addBook(@ModelAttribute Books book, Model model) {
         booksRepo.save(book);
-        return "redirect:/";
+        return "redirect:/books";
     }
 
-    @GetMapping("/edit")
-    public String showEditPage(@RequestParam(value = "id", required = true) String id, Model model) {
+    @GetMapping("/books/edit")
+    public String showEditPage(@RequestParam(value = "id", required = true) long id, Model model) {
         Books book = booksRepo.findById(id).orElseThrow(NotFoundException::new);
         model.addAttribute("book", book);
         model.addAttribute("authorList", authorRepo.findAll());
@@ -63,19 +57,17 @@ public class BooksController {
         return "editBook";
     }
 
-    @PostMapping("/edit")
-    public String editBook(@RequestParam(value = "id", required = true) String id,
+    @PostMapping("/books/edit")
+    public String editBook(@RequestParam(value = "id", required = true) long id,
                            @ModelAttribute Books book, Model model) {
-        List<Comments> commentList = commentRepo.findAllCommentsByBook(book);
-        book.setComment(commentList);
         booksRepo.save(book);
-        return "redirect:/";
+        return "redirect:/books";
     }
 
-    @PostMapping("/delete")
-    public String deletePost(@RequestParam(value = "id", required = true) String id,
+    @PostMapping("/books/delete")
+    public String deletePost(@RequestParam(value = "id", required = true) long id,
                              @ModelAttribute Books book, Model model) {
         booksRepo.delete(book);
-        return "redirect:/";
+        return "redirect:/books";
     }
 }

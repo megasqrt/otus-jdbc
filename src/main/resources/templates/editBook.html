@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="head"></head>
 <body>
-
-<form id="edit-form" th:object="${book}" th:action="@{/edit(id=${book.id})}" th:method="POST" action="editBook.html">
+<div th:include="nav"></div>
+<form id="edit-form" th:object="${book}" th:action="@{/books/edit(id=${book.id})}" th:method="POST"
+      action="editBook.html">
     <h1>Book Info:</h1>
     <div class="form-group">
         <label for="id-input">ID:</label>
@@ -16,7 +17,7 @@
     <div class="form-group">
         <label for="author-input">Author:</label>
         <select id="author-input" name="author" class="form-control">
-            <option th:each="author : ${authorList}" th:text="${author.fullName}" th:value="${author.id}"
+            <option th:each="author : ${authorList}" th:text="${author.fullname}" th:value="${author.id}"
                     th:selected="${book.author.id==author.id}">Author
             </option>
         </select>
@@ -29,13 +30,9 @@
             </option>
         </select>
     </div>
-    <div class="form-group" th:each="comment : ${book.comment}">
-        <div th:text="Comment+${comment.id}">Comment:</div>
-        <div class="form-control" th:text="${comment.text}">CommentText</div>
-    </div>
     <div class="form-group">
         <button type="submit" class="btn btn-success">Save</button>
-        <a type="button" class="btn btn-danger" th:href="@{/}" href="index.html">Cancel</a>
+        <a type="button" class="btn btn-danger" th:href="@{/books}" href="index.html">Cancel</a>
     </div>
 </form>
 
