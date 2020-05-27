@@ -4,10 +4,23 @@ spring:
   h2:
     console:
       enabled: true
-
-
+  data:
+    rest:
+      base-path: /datarest
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /monitor
+  endpoint:
+    health:
+      show-details: always
 logging:
   level:
     root: warn
   pattern:
     console: "%msg%n"
+  file:
+    path: ./otus-jdbc/logs/
+    name: ${logging.file.path}/libcat.log
