@@ -1,6 +1,10 @@
 spring:
   liquibase:
     change-log: classpath:liquibase/changelog.xml
+  h2:
+    console:
+      enabled: true
+
 
 logging:
   level:

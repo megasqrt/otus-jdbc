@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @DisplayName("Репозиторий для работы с книгами должен ")
-class BooksTest {
+class BooksRepositoryTest {
 
     private static final int EXPECTED_BOOK_COUNT = 2;
     private static final String EXPECTED_BOOK_TITLE = "Война и мир";
