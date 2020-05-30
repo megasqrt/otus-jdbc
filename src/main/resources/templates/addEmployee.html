@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+
+<form id="edit-form" th:action="@{/employee/add}" th:method="POST" action="employee.html">
+
+    <div class="form-group">
+        <label for="lastName-input">LastName:</label>
+        <input id="lastName-input" name="lastName" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="firstName-input">FirstName:</label>
+        <input id="firstName-input" name="firstName" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="middleName-input">MiddleName:</label>
+        <input id="middleName-input" name="middleName" type="text" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <ul>
+            <li th:each="group : ${groupList}">
+                <input type="checkbox" th:value="${group.id}"/>
+                <label th:for="${#ids.prev('groups')}"
+                       th:text="${group.name}">Groups</label>
+            </li>
+        </ul>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/employee}" href="employee.html">Cancel</a>
+    </div>
+</form>
+</body>
+</html>

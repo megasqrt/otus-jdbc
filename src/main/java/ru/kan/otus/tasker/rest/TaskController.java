@@ -19,12 +19,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskService taskRepo;
+    private final TaskService taskService;
     private final EmployeeRepository authorRepo;
 
     @GetMapping("/task")
     public String listPage(Model model) {
-        List<Task> taskList = taskRepo.findAll();
+        List<Task> taskList = taskService.findAll();
         model.addAttribute("taskList", taskList);
         return "task";
     }
@@ -37,13 +37,13 @@ public class TaskController {
     @PostMapping("/task/add")
     public String addTask(@ModelAttribute Task task, Model model) {
         task.setStatus(TaskStatus.NEW);
-        taskRepo.save(task);
+        taskService.save(task);
         return "redirect:/task";
     }
 
     @GetMapping("/task/edit")
     public String showEditPage(@RequestParam(value = "id", required = true) long id, Model model) {
-        Optional<Task> task = taskRepo.findById(id);
+        Optional<Task> task = taskService.findById(id);
         model.addAttribute("task", task.get());
         return "editTask";
     }
@@ -51,14 +51,14 @@ public class TaskController {
     @PostMapping("/task/edit")
     public String editTask(@RequestParam(value = "id", required = true) long id,
                            @ModelAttribute Task task, Model model) {
-        taskRepo.save(task);
+        taskService.save(task);
         return "redirect:/task";
     }
 
     @PostMapping("/task/delete")
     public String deletePost(@RequestParam(value = "id", required = true) long id,
                              @ModelAttribute Task task, Model model) {
-        taskRepo.delete(task);
+        taskService.delete(task);
         return "redirect:/task";
     }
 }

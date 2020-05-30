@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+<h1>Groups:</h1>
+<a type="button" class="btn btn-secondary" th:href="@{/group/add}" href="addgroup.html">Add new Group</a>
+
+<table class="table table-striped" id="group-table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="group :${groupList}">
+        <td th:text="${group.id}">id</td>
+        <td th:text="${group.Name}">Name</td>
+        <td>
+            <a type="button" class="btn btn-success" th:href="@{/group/edit(id=${group.id})}"
+               href="editgroup.html">Edit</a>
+            <form th:action="@{/group/delete(id=${group.id})}" method="post">
+                <input type="submit" class="btn btn-danger" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,40 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    network_mode: bridge
+    container_name: postgres
+    volumes:
+      - D:/dockervolime:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=tasker
+    restart: "no" #unless-stopped
+  springbootapp:
+    build: . #image: kornilov/tasker
+    network_mode: bridge
+    container_name: springbootapp
+    volumes:
+      - C:/Users/kan/.m2:/root/.m2
+    tty: true
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - DB_URL=jdbc:postgresql://postgres:5432/tasker
+      - "SPRING_PROFILES_ACTIVE=doc"
+    restart: "no"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+volumes:
+  postgresdata:

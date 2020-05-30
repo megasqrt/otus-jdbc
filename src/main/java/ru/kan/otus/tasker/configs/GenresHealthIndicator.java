@@ -1,13 +1,17 @@
 package ru.kan.otus.tasker.configs;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.boot.actuate.health.Status;
 import org.springframework.stereotype.Component;
+import ru.kan.otus.tasker.repositories.TaskRepository;
 
 @RequiredArgsConstructor
 @Component
-public class GenresHealthIndicator /*implements HealthIndicator */ {
+public class GenresHealthIndicator implements HealthIndicator {
 
-    /*private final TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     public Health health() {
@@ -17,5 +21,5 @@ public class GenresHealthIndicator /*implements HealthIndicator */ {
         } else {
             return Health.down().status(Status.DOWN).build();
         }
-    }*/
+    }
 }

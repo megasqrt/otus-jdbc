@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+
+<form id="edit-form" th:action="@{/group/add}" th:method="POST" action="group.html">
+
+    <div class="form-group">
+        <label for="name-input">Name:</label>
+        <input id="name-input" name="name" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/group}" href="group.html">Cancel</a>
+    </div>
+</form>
+</body>
+</html>

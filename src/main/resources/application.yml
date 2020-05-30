@@ -3,14 +3,14 @@ spring:
     name: Tasker
   liquibase:
     change-log: classpath:liquibase/changelog.xml
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${DB_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+  h2:
+    console:
+      enabled: true
   data:
     rest:
       base-path: /datarest
+server:
+  port: 8080
 management:
   endpoints:
     web:
