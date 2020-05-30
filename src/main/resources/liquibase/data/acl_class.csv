@@ -1,0 +1,4 @@
+id;class
+1;ru.kan.otus.tasker.domain.Task
+2;ru.kan.otus.tasker.domain.Employee
+3;ru.kan.otus.tasker.domain.EmployeeGroup

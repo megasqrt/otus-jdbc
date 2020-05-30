@@ -22,8 +22,7 @@
         <ul>
             <li th:each="group : ${groupList}">
                 <input type="checkbox" th:value="${group.id}"/>
-                <label th:for="${#ids.prev('groups')}"
-                       th:text="${group.name}">Groups</label>
+                <label th:text="${group.name}">Groups</label>
             </li>
         </ul>
     </div>

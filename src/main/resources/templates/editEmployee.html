@@ -4,7 +4,7 @@
 <body>
 <div th:include="nav"></div>
 
-<form id="edit-form" th:object="${employee}" th:action="@{/employee/edit(id=${employee.id})}" th:method="POST"
+<form id="edit-form" th:object="${employee}" th:action="@{/employee/edit(id=*{id})}" th:method="POST"
       action="employee.html">
 
     <div class="form-group">

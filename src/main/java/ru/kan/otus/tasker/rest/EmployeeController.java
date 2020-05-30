@@ -41,7 +41,7 @@ public class EmployeeController {
 
     @GetMapping("/employee/edit")
     public String showEditPage(@RequestParam(value = "id", required = true) long id, Model model) {
-        model.addAttribute("employee", employeeRepo.findById(id));
+        model.addAttribute("employee", employeeRepo.findById(id).orElseThrow());
         model.addAttribute("groupList", employeeGroupRepo.findAll());
         return "editEmployee";
     }

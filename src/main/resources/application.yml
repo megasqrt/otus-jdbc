@@ -9,6 +9,9 @@ spring:
   data:
     rest:
       base-path: /datarest
+  cloud:
+    config:
+      enabled: false
 server:
   port: 8080
 management:
@@ -17,6 +20,7 @@ management:
       exposure:
         include: "*"
       base-path: /monitor
+    migrate-legacy-ids: true
   endpoint:
     health:
       show-details: always
@@ -27,7 +31,7 @@ logging:
     console: "%msg%n"
   file:
     path: ./otus-jdbc/logs/
-    name: ${logging.file.path}/libcat.log
+    name: ${logging.file.path}/tasker.log
 mail:
   email: otustask@mail.ru
   password: ckj;ysqgfhjkm1234
