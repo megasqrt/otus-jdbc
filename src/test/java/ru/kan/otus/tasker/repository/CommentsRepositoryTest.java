@@ -1,4 +1,4 @@
-package ru.kan.otus.libcat.repository;
+package ru.kan.otus.tasker.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -17,7 +17,7 @@ class CommentsRepositoryTest {
     private CommentRepository commentRepo;
 
     @Autowired
-    private BooksRepository booksRepo;
+    private TaskRepository taskRepo;
 
     @DisplayName("удалять комментарий БД")
     @Test
@@ -34,7 +34,7 @@ class CommentsRepositoryTest {
     @DisplayName("добавляет новые комментарии к книге")
     @Test
     void insert() {
-        Optional<Books> book = booksRepo.findById(EXPECTED_BOOK_ID);
+        Optional<Task> book = taskRepo.findById(EXPECTED_BOOK_ID);
         Comments newComment = new Comments("0", "test", book.get());
         int firstCommentCount = commentRepo.findAllCommentsByBook(book.get()).size();
 
@@ -48,7 +48,7 @@ class CommentsRepositoryTest {
     @DisplayName("возвращает все комментарии у книги")
     @Test
     void getAll() {
-        Optional<Books> book = booksRepo.findById(EXPECTED_BOOK_ID);
+        Optional<Task> book = taskRepo.findById(EXPECTED_BOOK_ID);
         List<Comments> commentsList = commentRepo.findAllCommentsByBook(book.get());
         assertThat(commentsList).isNotEmpty();
         Assertions.assertEquals(2, commentsList.size());

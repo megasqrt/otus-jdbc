@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+
+<h1>Task:</h1>
+<a type="button" class="btn btn-secondary" th:href="@{/task/add}" href="addTask.html">Add new Task</a>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Done</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${taskList}">
+        <th scope="row" th:text="${task.id}">1</th>
+        <td th:text="${task.title}">Title</td>
+        <td th:text="${task.description}">Description</td>
+        <td th:text="${task.priority}">Priority</td>
+        <td>
+            <a type="button" class="btn btn-success" th:href="@{/task/edit(id=${task.id})}"
+               href="edittask.html">Edit</a>
+            <form th:action="@{/task/delete(id=${task.id})}" method="post">
+                <input type="submit" class="btn btn-danger" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

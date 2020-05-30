@@ -1,4 +1,4 @@
-package ru.kan.otus.libcat.rest;
+package ru.kan.otus.tasker.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

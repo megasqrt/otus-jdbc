@@ -1,27 +1,19 @@
-package ru.kan.otus.libcat.repository;
+package ru.kan.otus.tasker.repository;
 
-import lombok.val;
-import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import ru.kan.otus.libcat.domain.Authors;
-import ru.kan.otus.libcat.repositories.AuthorsRepository;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @DisplayName("Репозиторий для работы с авторами должен ")
 class AuthorsRepositoryTest {
-
+/*
     private static final int EXPECTED_AUTHOR_COUNT = 2;
     private static final String EXPECTED_AUTHOR_FULLNAME = "Толстой Лев Николаевич";
     private static final long EXPECTED_AUTHOR_ID = 1;
     private static final String NEW_AUTHOR_FULLNAME = "Пелевин";
 
     @Autowired
-    private AuthorsRepository authorsRepo;
+    private EmployeeRepository authorsRepo;
 
     @DisplayName("находить автора по его ID")
     @Test
@@ -48,9 +40,9 @@ class AuthorsRepositoryTest {
     @DisplayName("добавлять новый жанр в бд")
     @Test
     void save() {
-        Authors newAuthor = new Authors(NEW_AUTHOR_FULLNAME);
+        Position newAuthor = new Position(NEW_AUTHOR_FULLNAME);
         authorsRepo.save(newAuthor);
-        Authors foundAuthor = authorsRepo.findByFullname(NEW_AUTHOR_FULLNAME).orElse(null);
+        Position foundAuthor = authorsRepo.findByFullname(NEW_AUTHOR_FULLNAME).orElse(null);
         Assert.assertEquals(newAuthor, foundAuthor);
-    }
+    }*/
 }

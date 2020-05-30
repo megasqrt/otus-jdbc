@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+<h1>Employee:</h1>
+<a type="button" class="btn btn-secondary" th:href="@{/employee/add}" href="addEmployee.html">Add new Employee</a>
+
+<table class="table table-striped" id="employee-table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">FullName</th>
+        <th scope="col">Position</th>
+        <th scope="col">Group</th>
+        <th scope="col">Task</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee :${employeeList}">
+        <td th:text="${employee.id}">id</td>
+        <td th:text="${employee.lastName}+' '+${employee.firstName}+' '+${employee.middleName}">FullName</td>
+        <td th:text="${employee.position}">Position</td>
+        <td>
+            <ul>
+                <li th:each="group :${employee.groups}">
+                    <b th:text="${group.name}">Group</b>
+                </li>
+            </ul>
+        </td>
+        <td>
+            <b th:text="${employee.tasks.size()}">Task</b>
+        </td>
+        <td>
+            <a type="button" class="btn btn-success" th:href="@{/employee/edit(id=${employee.id})}"
+               href="editEmployee.html">Edit</a>
+            <form th:action="@{/employee/delete(id=${employee.id})}" method="post">
+                <input type="submit" class="btn btn-danger" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

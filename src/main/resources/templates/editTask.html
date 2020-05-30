@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+<form id="edit-form" th:object="${task}" th:action="@{/task/edit(id=${task.id})}" th:method="POST"
+      action="editTask.html">
+    <h1>Edit task:</h1>
+    <div class="form-group">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" disabled="disabled" type="text" th:value="*{id}" value="1" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" th:value="*{title}" value="Task Title" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="description-input">Description:</label>
+        <input id="description-input" name="description" type="text" th:value="*{description}" value="Task Description"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <select name="priority" class="form-control">
+            <option th:each="priorityOpt : ${T(ru.kan.otus.tasker.domain.Task.Priority).values()}"
+                    th:value="${priorityOpt}" th:text="${priorityOpt}"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select name="status" class="form-control">
+            <option th:each="statusOpt : ${T(ru.kan.otus.tasker.domain.TaskStatus).values()}"
+                    th:value="${statusOpt}" th:text="${statusOpt}"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/task}" href="index.html">Cancel</a>
+    </div>
+</form>
+
+</body>
+</html>
