@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<div th:include="nav"></div>
+
+<form id="edit-form" th:object="${group}" th:action="@{/group/edit(id=*{id})}" th:method="POST"
+      action="group.html">
+
+    <div class="form-group">
+        <label for="id-input">ID:</label>
+        <input id="id-input" name="id" disabled="disabled" type="text" th:value="*{id}" value="1" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="Name-input">Name:</label>
+        <input id="name-input" name="name" type="text" th:value="*{name}" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/group}" href="group.html">Cancel</a>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="head"></head>
+<body>
+<form id="edit-form" th:action="@{/task/add}" th:method="POST" action="task.html">
+    <div class="form-group">
+        <label for="title-input">Title:</label>
+        <input id="title-input" name="title" type="text" placeholder="Enter task title" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="description-input">Description:</label>
+        <input id="description-input" name="description" type="text" placeholder="Enter task description"
+               class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="priority-input">Priority:</label>
+        <select id="priority-input" name="priority" class="form-control">
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a type="button" class="btn btn-danger" th:href="@{/task}" href="task.html">Cancel</a>
+    </div>
+</form>
+</body>
+</html>
